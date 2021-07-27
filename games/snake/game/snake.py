@@ -2,14 +2,19 @@ import pygame
 
 from .gamecore import Scene, GameStatus
 from .gameobject import SnakeAction
-
+import os
 class Snake:
     """
     The game execution manager
     """
-    def __init__(self):
+    def __init__(self, id=0):
         self._scene = Scene()
+        row = id // 8
+        col = id % 8
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (100 + (col)* 100, 100 + (row)*200)
         self._pygame_init()
+
+
 
     def _pygame_init(self):
         """
@@ -33,14 +38,20 @@ class Snake:
             if command["ml"] in SnakeAction.__members__ else SnakeAction.NONE)
 
         # Pass the command to the scene and get the status
-        game_status = self._scene.update(command)
+        game_status, fdis = self._scene.update(command)
 
         # If the game is over, send the reset signal
         if game_status == GameStatus.GAME_OVER:
-            print("Score: {}".format(self._scene.score))
-            return "RESET"
+            # print("Score: {}".format(self._scene.score))
+            return "RESET", fdis
+
 
         self._draw_screen()
+
+        return game_status, fdis
+
+    def get_screen(self):
+        return self._scene.get_2d_pixel_from_scene()
 
     def _draw_screen(self):
         """

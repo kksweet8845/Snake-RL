@@ -5,6 +5,7 @@ The file for defining objects in the game
 from pygame import Rect, Surface, draw
 from pygame.sprite import Sprite
 from collections import deque
+import numpy as np
 
 from mlgame.utils.enum import StringEnum, auto
 
@@ -58,14 +59,16 @@ class SnakeAction(StringEnum):
 
 class Snake:
     def __init__(self):
-        self.head = SnakeBody((40, 40), (31, 204, 42))  # Green
+        x = np.random.randint(6, size=2)
+        x[0], x[1] = x[0] *10, x[1] * 10
+        self.head = SnakeBody((x[0], x[1]), (31, 204, 42))  # Green
 
         self.body = deque()
         self.body_color = (255, 255, 255)   # White
         # Note the ordering of appending elements
-        self.body.append(SnakeBody((40, 30), self.body_color))
-        self.body.append(SnakeBody((40, 20), self.body_color))
-        self.body.append(SnakeBody((40, 10), self.body_color))
+        self.body.append(SnakeBody((x[0], x[1]-10), self.body_color))
+        self.body.append(SnakeBody((x[0], x[1]-20), self.body_color))
+        self.body.append(SnakeBody((x[0], x[1]-30), self.body_color))
 
         # Initialize the action to going down
         self._action = SnakeAction.DOWN

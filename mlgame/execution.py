@@ -30,6 +30,8 @@ def execute():
     else:
         _run_ml_mode(execution_cmd, game_config.game_setup)
 
+    # TODO RL mode
+
 def _parse_command_line():
     """
     Parse the command line arguments
@@ -138,6 +140,7 @@ def _run_ml_mode(execution_cmd: ExecutionCommand, game_setup):
     returncode = process_manager.start()
     if returncode == -1:
         sys.exit(errno.GAME_EXECUTION_ERROR)
+
 
 def _get_game_executor_propty(
         execution_cmd: ExecutionCommand, game_setup) -> GameMLModeExecutorProperty:

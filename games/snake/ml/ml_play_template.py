@@ -2,6 +2,9 @@
 The template of the script for playing the game in the ml mode
 """
 
+
+
+
 class MLPlay:
     def __init__(self):
         """
